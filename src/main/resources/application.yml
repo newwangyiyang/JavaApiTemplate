@@ -1,7 +1,9 @@
 server:
   #设置端口号
   port: 8080
-  session-timeout: 1800
+  servlet:
+    session:
+      timeout: 1800s
 
 
 #定义上传文件的路径
@@ -46,21 +48,24 @@ spring:
 #mybatis
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
-  #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: cn.yiyang.entity
+  #实体扫描，多个package用逗号或者分号分隔,  XML 中调用的时候不用包含包名
+  type-aliases-package: cn.yiyang.entity
   global-config:
-#    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
-    id-type: 3
-#    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-    field-strategy: 0
-    #驼峰下划线转换
-    db-column-underline: true
     #刷新mapper 调试神器
-    refresh-mapper: true
-    #数据库大写下划线转换
-    capital-mode: true
-    #序列接口实现类配置
-    #key-generator: com.baomidou.springboot.xxx
+    refresh: true
+    db-config:
+      # 开启大写命名，默认不开启
+      capital-mode: false
+      # 是否开启 LIKE 查询，即根据 entity 自动生成的 where 条件中 String 类型字段 是否使用 LIKE，默认不开启
+      column-like: false
+      # 数据库类型,默认值为未知的数据库类型 如果值为OTHER,启动时会根据数据库连接 url 获取数据库类型;如果不是OTHER则不会自动获取数据库类型
+      db-type: mysql
+      # 全局默认主键类型
+      id-type: id_worker
+      # 表名、是否使用下划线命名，默认数据库表使用下划线命名
+      table-underline: true
+      #该策略约定了如何产出注入的sql,涉及insert,update以及wrapper内部的entity属性生成的 where 条件
+      field-strategy: not_null
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

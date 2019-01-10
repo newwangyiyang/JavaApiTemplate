@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@MapperScan("cn.yiyang.*.dao")
+@MapperScan("cn.yiyang.*.mapper")
 @EnableTransactionManagement // 开启注解事务管理
 @EnableScheduling
 @SpringBootApplication

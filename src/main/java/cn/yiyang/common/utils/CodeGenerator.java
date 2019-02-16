@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 
@@ -55,6 +56,7 @@ public class CodeGenerator {
         gc.setEnableCache(false);// XML 二级缓存
         gc.setBaseResultMap(true);// XML ResultMap
         gc.setBaseColumnList(false);
+        gc.setDateType(DateType.ONLY_DATE);//设置MySql 的Date类型
 
         gc.setEntityName("%sEntity"); // 设置实体名称
         gc.setServiceName("%sService"); //设置Service接口层名称

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +22,7 @@ import java.util.Date;
  * @date 2018-10-23 12:55:28
  */
 @TableName("book_register")
+@Slf4j
 public class BookRegisterEntity implements Serializable {
 //	private static final long serialVersionUID = 1L;
 
@@ -36,12 +38,11 @@ public class BookRegisterEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@JsonProperty()
+	@JsonProperty(value = "bookAge")
 	private String bookAge;
 	/**
 	 * 
 	 */
-	@JsonFormat(pattern = "")
 	private String bookPhone;
 	/**
 	 * 

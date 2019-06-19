@@ -1,6 +1,7 @@
 package cn.yiyang.common.utils;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -55,17 +56,18 @@ public class CodeGenerator {
         gc.setActiveRecord(true); // 开启orm模式
         gc.setEnableCache(false);// XML 二级缓存
         gc.setBaseResultMap(true);// XML ResultMap
-        gc.setBaseColumnList(false);
+        gc.setBaseColumnList(true);// XML ColumnList
         gc.setDateType(DateType.ONLY_DATE);//设置MySql 的Date类型
 
         gc.setEntityName("%sEntity"); // 设置实体名称
         gc.setServiceName("%sService"); //设置Service接口层名称
         gc.setSwagger2(true); // 开启Swagger2
+        gc.setIdType(IdType.AUTO); // 设置主键的生成策略(自增， uuid...)
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/delivery?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/demo_02?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
@@ -76,7 +78,7 @@ public class CodeGenerator {
         PackageConfig pc = new PackageConfig();
 //        pc.setModuleName(scanner("模块名"));
         //******* 此处用于填写模块名 *********
-        pc.setModuleName("spotCheck");
+        pc.setModuleName("demo");
         pc.setParent("cn.yiyang"); // 父包名
         mpg.setPackageInfo(pc);
 
@@ -130,9 +132,16 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel); // 数据库表映射到实体的命名策略
         strategy.setColumnNaming(NamingStrategy.underline_to_camel); // 数据库表字段映射到实体的命名策略, 未指定按照 naming 执行
         strategy.setEntityLombokModel(true); //@Data
+        strategy.setEntityBuilderModel(true); // @Builder
         strategy.setRestControllerStyle(true); // @RestController
+
+        // 新增
+        strategy.setVersionFieldName("version"); // 指定乐观锁名称
+        strategy.setLogicDeleteFieldName("ban"); // 指定逻辑删除名称
+
+
         // *** 配置要生成代码的表 ***
-        strategy.setInclude("sys_user", "t_message", "t_product");
+        strategy.setInclude("table_1");
 //        strategy.setControllerMappingHyphenStyle(true); // 驼峰转连字符 Controller层: userModel   ->  user-model
         strategy.setEntityTableFieldAnnotationEnable(true); // 是否生成实体时，生成字段注解
         strategy.setTablePrefix(pc.getModuleName() + "_"); //表前缀

@@ -1,7 +1,7 @@
 package cn.yiyang.book.dao;
 
 import cn.yiyang.book.entity.BookRegisterEntity;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

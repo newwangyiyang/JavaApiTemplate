@@ -2,16 +2,15 @@ package cn.yiyang.book.controller;
 
 import cn.yiyang.book.entity.DemoEntity;
 import cn.yiyang.common.RequestLimit.RequestLimit;
-import cn.yiyang.common.utils.DateUtils;
-import cn.yiyang.common.utils.JUtils.base.RegexUtils;
 import cn.yiyang.common.utils.JWTUtil;
 import cn.yiyang.common.utils.ResultBean;
 import cn.yiyang.common.validate.Phone;
 import cn.yiyang.common.validate.ValueSet;
 import cn.yiyang.system.exception.WYYException;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.Logical;
@@ -20,12 +19,13 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName DemoController
@@ -33,9 +33,6 @@ import java.util.regex.Pattern;
  * @Author Administrator
  * @Date 2018/11/30 12:48
  * @Version 1.0
- * application/json
- * application/x-www-form-urlencoded
- * 只是前端传递的编码格式不同，在前端传递和后端接收方式相同
  **/
 @RestController
 @RequestMapping("/demo")
@@ -75,14 +72,40 @@ public class DemoController {
 
 
     @GetMapping("/formTest")
+    @ApiOperation(value = "访问频率限制")
     @RequestLimit(count = 5) // 限制没分钟请求5次， 默认每分钟请求2次
     public ResultBean formTest(@ValueSet(value = {"1", "2"}) @RequestParam String name) {
         return ResultBean.success();
     }
 
-    public static void main(String[] args) {
-        List<Integer> list = Lists.newArrayList();
-        Collections.addAll(list, 1,2,3,4,5,6);
-        System.out.println(list);
+
+    @ApiOperation(value = "获取用户", notes = "根据用户id，获取用户的具体信息")
+    @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
+                    @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
+            }
+    )
+    @PostMapping("/getUserById")
+    public ResultBean getUserById(
+            @RequestParam(name = "userId", required = true, defaultValue = "") String userId,
+            @RequestParam(name = "username", required = true, defaultValue = "") String username,
+            @RequestParam(name = "password", required = true, defaultValue = "") String password
+    ) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.remove("userId");
+        map.clear();
+        map.put("userId", userId);
+        map.put("username", username);
+        map.put("password", password);
+        return ResultBean.success(map);
     }
+
+
+    @GetMapping("/getAllUser")
+    public void getAllUser(HttpServletResponse response) throws IOException {
+        response.sendRedirect("https://www.baidu.com");
+    }
+
 }

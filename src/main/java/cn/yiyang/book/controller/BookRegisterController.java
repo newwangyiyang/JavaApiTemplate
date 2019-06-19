@@ -4,6 +4,7 @@ import cn.yiyang.book.entity.BookRegisterEntity;
 import cn.yiyang.book.service.BookRegisterService;
 import cn.yiyang.common.utils.*;
 import cn.yiyang.common.utils.JUtils.beanConvert.BeanMapConvert;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,9 +40,9 @@ public class BookRegisterController {
      */
     @RequestMapping("/list")
     public R list(@RequestBody Map<String, Object> params){
-//        PageUtils page = bookRegisterService.queryPage(params);
+        PageUtils page = bookRegisterService.queryPage(params);
 
-        return R.ok();
+        return R.ok().put("page", page);
     }
 
 
@@ -50,9 +51,9 @@ public class BookRegisterController {
      */
     @RequestMapping("/info/{bookId}")
     public R info(@PathVariable("bookId") String bookId){
-//			BookRegisterEntity bookRegister = bookRegisterService.selectById(bookId);
+			BookRegisterEntity bookRegister = bookRegisterService.selectById(bookId);
 
-        return R.ok();
+        return R.ok().put("bookRegister", bookRegister);
     }
 
     /**
@@ -60,7 +61,7 @@ public class BookRegisterController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody BookRegisterEntity bookRegister){
-//			bookRegisterService.insert(bookRegister);
+			bookRegisterService.insert(bookRegister);
 
         return R.ok();
     }
@@ -70,7 +71,7 @@ public class BookRegisterController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody BookRegisterEntity bookRegister){
-//			bookRegisterService.updateById(bookRegister);
+			bookRegisterService.updateById(bookRegister);
 
         return R.ok();
     }
@@ -80,7 +81,7 @@ public class BookRegisterController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody String[] bookIds){
-//			bookRegisterService.deleteBatchIds(Arrays.asList(bookIds));
+			bookRegisterService.deleteBatchIds(Arrays.asList(bookIds));
 
         return R.ok();
     }
@@ -177,40 +178,40 @@ public class BookRegisterController {
     @ApiOperation(value = "数据导出接口")
     @GetMapping("/exportBookerExcel")
     public void exportBookerExcel(HttpServletResponse response) throws Exception {
-//        String filename = "同学录.xls";
-//        //设置下载头信息
-//        response.setContentType("application/ms-excel;charset=UTF-8");
-//        response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.getBytes(),"iso-8859-1"));
-//        ServletOutputStream out = response.getOutputStream();
-//        EntityWrapper<BookRegisterEntity> entityWrapper = new EntityWrapper<>();
-//        List<BookRegisterEntity> list = bookRegisterService.selectList(entityWrapper);
-//        List<Map<String, Object>> newArrayList = Lists.newArrayList();
-//        list.forEach(v -> {
-//            Map<String, Object> map = Maps.newHashMap();
-//            Map<String, Object> object = BeanMapConvert.bean2MapObject(v);
-//            for (String s : object.keySet()) {
-//                if(object.get(s) != null) {
-//                    map.put(s, object.get(s));
-//                }
-//            }
-//            newArrayList.add(map);
-//        });
-//        LinkedHashMap<String, String> hashMap = Maps.newLinkedHashMap();
-//        hashMap.put("bookName", "姓名");
-//        hashMap.put("bookAge", "年龄");
-//        hashMap.put("bookPhone", "手机号码");
-//        hashMap.put("bookStartTime", "入学时间");
-//        hashMap.put("bookDep", "所在院系");
-//        hashMap.put("bookMajor", "所学专业");
-//        hashMap.put("bookClass", "所在班级");
-//        hashMap.put("bookEndTime", "毕业时间");
-//        hashMap.put("bookCity", "现所在城市");
-//        hashMap.put("bookWorkUnit", "现工作单位");
-//        hashMap.put("bookWorkTitle", "现职务/职称");
-//        hashMap.put("bookEmail", "邮箱");
-//        hashMap.put("bookWeixin", "微信号");
-//        hashMap.put("bookSex", "性别");
-//        ExcelUtils.pojo2Excel(newArrayList, out, hashMap, "同学录收集");
+        String filename = "同学录.xls";
+        //设置下载头信息
+        response.setContentType("application/ms-excel;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.getBytes(),"iso-8859-1"));
+        ServletOutputStream out = response.getOutputStream();
+        EntityWrapper<BookRegisterEntity> entityWrapper = new EntityWrapper<>();
+        List<BookRegisterEntity> list = bookRegisterService.selectList(entityWrapper);
+        List<Map<String, Object>> newArrayList = Lists.newArrayList();
+        list.forEach(v -> {
+            Map<String, Object> map = Maps.newHashMap();
+            Map<String, Object> object = BeanMapConvert.bean2MapObject(v);
+            for (String s : object.keySet()) {
+                if(object.get(s) != null) {
+                    map.put(s, object.get(s));
+                }
+            }
+            newArrayList.add(map);
+        });
+        LinkedHashMap<String, String> hashMap = Maps.newLinkedHashMap();
+        hashMap.put("bookName", "姓名");
+        hashMap.put("bookAge", "年龄");
+        hashMap.put("bookPhone", "手机号码");
+        hashMap.put("bookStartTime", "入学时间");
+        hashMap.put("bookDep", "所在院系");
+        hashMap.put("bookMajor", "所学专业");
+        hashMap.put("bookClass", "所在班级");
+        hashMap.put("bookEndTime", "毕业时间");
+        hashMap.put("bookCity", "现所在城市");
+        hashMap.put("bookWorkUnit", "现工作单位");
+        hashMap.put("bookWorkTitle", "现职务/职称");
+        hashMap.put("bookEmail", "邮箱");
+        hashMap.put("bookWeixin", "微信号");
+        hashMap.put("bookSex", "性别");
+        ExcelUtils.pojo2Excel(newArrayList, out, hashMap, "同学录收集");
     }
 
 }

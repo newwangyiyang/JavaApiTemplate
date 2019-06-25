@@ -141,13 +141,13 @@
             <artifactId>freemarker</artifactId>
             <version>2.3.28</version>
         </dependency>
-        <!--springboot热加载-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-            <scope>true</scope>
-        </dependency>
+        <!--springboot热加载 由于暂时跟mybatis-plus的lamdba查询有冲突，暂时放弃项目的热加载功能-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<optional>true</optional>-->
+            <!--<scope>true</scope>-->
+        <!--</dependency>-->
         <!-- httpclient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -193,6 +193,17 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <!-- 增加对公众号的支持mp -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

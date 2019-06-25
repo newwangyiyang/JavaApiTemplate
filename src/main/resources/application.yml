@@ -68,3 +68,11 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
 
+wx:
+  mp:
+    configs:
+      - appId: 111
+        secret: 111
+        token: 111
+        aesKey: 111
+
